@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'sql_helper.dart';
 
 class AddContact extends StatefulWidget {
   const AddContact({Key? key}) : super(key: key);
@@ -9,6 +10,25 @@ class AddContact extends StatefulWidget {
 }
 
 class _AddContactState extends State<AddContact> {
+
+  Future<void> addContact() async{
+    await SQLHelper.createItem(nom.text,numero.text);
+  }
+
+  Future<void> updateContact() async{
+    await SQLHelper.updateItem(2, nom.text, numero.text);
+  }
+
+  Future<void> deleteContact() async{
+    await SQLHelper.deleteItem(2);
+  }
+
+  Future<void> test() async {
+    List<Map<String, dynamic>> journals = await SQLHelper.getItems();
+    for(int i=0;i<journals.length;i++){
+      print(journals[i]['id'].toString()+":"+journals[i]['title']);
+    }
+  }
 
   TextEditingController nom = TextEditingController();
   TextEditingController numero = TextEditingController();
@@ -31,7 +51,7 @@ class _AddContactState extends State<AddContact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Contact"),
+        title: const Text("Ajouter Contact"),
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
@@ -45,18 +65,18 @@ class _AddContactState extends State<AddContact> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Text("Nom", style: TextStyle(
-                    color: Colors.greenAccent,
+                  const Text("Nom:", style: TextStyle(
+                    color: Colors.black,
                     fontSize: 24,
                   ),
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.fromLTRB(30, 30, 10, 10),
+                      margin: const EdgeInsets.fromLTRB(80, 30, 10, 10),
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.black.withOpacity(0.7),
                               spreadRadius: 0.2,
                               blurRadius: 1,
                               offset: const Offset(1, 3),
@@ -95,8 +115,8 @@ class _AddContactState extends State<AddContact> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Text("Téléphone", style: TextStyle(
-                    color: Colors.greenAccent,
+                  const Text("Téléphone:", style: TextStyle(
+                    color: Colors.black,
                     fontSize: 24,
                   ),
                   ),
@@ -106,7 +126,7 @@ class _AddContactState extends State<AddContact> {
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.black.withOpacity(0.7),
                               spreadRadius: 0.2,
                               blurRadius: 1,
                               offset: const Offset(1, 3),
